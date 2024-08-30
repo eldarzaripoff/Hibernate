@@ -19,7 +19,8 @@ import java.util.UUID;
 public class Orders {
     @Column(unique = true, nullable = false)
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)

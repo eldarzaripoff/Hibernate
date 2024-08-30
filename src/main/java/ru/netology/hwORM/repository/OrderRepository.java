@@ -18,9 +18,6 @@ public class OrderRepository {
 
     @Transactional
     public void save(Orders orders) {
-        if (orders.getId() == null) {
-            orders.setId(UUID.randomUUID());
-        }
         entityManager.persist(orders);
     }
 

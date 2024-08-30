@@ -6,12 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import ru.netology.hwORM.models.Customers;
 import ru.netology.hwORM.models.Orders;
-import ru.netology.hwORM.models.People;
-import ru.netology.hwORM.models.Persons;
 import ru.netology.hwORM.repository.CustomerRepository;
 import ru.netology.hwORM.repository.OrderRepository;
-import ru.netology.hwORM.repository.ProductRepository;
-
 import java.util.Date;
 
 @SpringBootApplication
@@ -22,48 +18,8 @@ public class Runner implements CommandLineRunner {
 	}
 
 	@Bean
-	CommandLineRunner initDatabase(ProductRepository repository, CustomerRepository customerRepository, OrderRepository orderRepository) {
+	CommandLineRunner initDatabase(CustomerRepository customerRepository, OrderRepository orderRepository) {
 		return args -> {
-			Persons michael = Persons.builder()
-					.people(People.builder()
-							.name("Michael")
-							.surname("Adebayo")
-							.age(21)
-							.build())
-					.phone_number("+79566321247")
-					.city_of_living("Warshaw")
-					.build();
-
-			Persons yunus = Persons.builder()
-					.people(People.builder()
-							.name("Yunus")
-							.surname("Babacan")
-							.age(22)
-							.build())
-					.phone_number("+79241213412")
-					.city_of_living("Moscow")
-					.build();
-
-			Persons eldar = Persons.builder()
-					.people(People.builder()
-							.name("Eldar")
-							.surname("Zaripov")
-							.age(26)
-							.build())
-					.phone_number("+79655914084")
-					.city_of_living("Kazan").build();
-			Persons rustem = Persons.builder()
-					.people(People.builder()
-							.name("Rustem")
-							.surname("Zaripov")
-							.age(22).build())
-					.phone_number("+79520333552")
-					.city_of_living("Moscow")
-					.build();
-			repository.save(michael);
-			repository.save(yunus);
-			repository.save(eldar);
-			repository.save(rustem);
 			Customers alexey = Customers.builder()
 					.name("alexey")
 					.surname("Ivanov")
@@ -74,11 +30,13 @@ public class Runner implements CommandLineRunner {
 					.name("Rico")
 					.surname("Hernandez")
 					.age(32)
+					.phone_number("+79655201457")
 					.build();
 			Customers alex = Customers.builder()
 					.name("ALEXEY")
 					.surname("PETROV")
 					.age(65)
+					.phone_number("+79235455652")
 					.build();
 			Customers alfredo = Customers.builder()
 					.name("Alfredo")

@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - include:
+      file: migrations/ScriptForCreationTheCustomers.sql
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/ScriptForFillingTheCustomers.sql
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/ScriptForCreationTheOrders.sql
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/ScriptForFillingTheOrders.sql
+      relativeToChangeLogFile: true
+  - include:
+      file: migrations/ScriptForSelectAlexey.sql
+      relativeToChangeLogFile: true

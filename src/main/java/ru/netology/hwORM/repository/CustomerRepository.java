@@ -16,9 +16,6 @@ public class CustomerRepository {
 
     @Transactional
     public void save(Customers customers) {
-        if (customers.getId() == null) {
-            customers.setId(UUID.randomUUID());
-        }
         entityManager.persist(customers);
     }
 }
