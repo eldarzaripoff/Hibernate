@@ -1,5 +1,6 @@
 package ru.netology.hwORM.controller;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class Controller {
     public ResponseEntity<Persons> getPerson(@RequestParam String name,
                                              @RequestParam String surname,
                                              @RequestParam int age) {
-        Optional<Persons> foundPerson = dbRepository.findByPeople(People.builder().name(name).surname(surname).age(age).build());
+        Optional<Persons> foundPerson = dbRepository.findByPeople(name, surname, age);
         if (foundPerson.isPresent()) {
             Persons person = foundPerson.get();
             return new ResponseEntity<>(person, HttpStatus.OK);
@@ -43,7 +44,7 @@ public class Controller {
                                                @RequestParam String surname,
                                                @RequestParam int age,
                                                @RequestBody UpdateRequest updateRequest) {
-        Optional<Persons> foundPerson = dbRepository.findByPeople(People.builder().name(name).surname(surname).age(age).build());
+        Optional<Persons> foundPerson = dbRepository.findByPeople(name, surname, age);
         if (foundPerson.isPresent()) {
             Persons updatedPerson = foundPerson.get();
             updatedPerson.setPhone_number(updateRequest.getPhoneNumber());
@@ -59,7 +60,7 @@ public class Controller {
     public ResponseEntity<Persons> deletePerson(@RequestParam String name,
                                                 @RequestParam String surname,
                                                 @RequestParam int age) {
-        Optional<Persons> foundPerson = dbRepository.findByPeople(People.builder().name(name).surname(surname).age(age).build());
+        Optional<Persons> foundPerson = dbRepository.findByPeople(name, surname, age);
         if (foundPerson.isPresent()) {
             Persons updatedPerson = foundPerson.get();
             dbRepository.delete(updatedPerson);
@@ -81,7 +82,7 @@ public class Controller {
 
     @GetMapping("/persons/by-age")
     public ResponseEntity<List<Persons>> getPersonsByAge(@RequestParam int age) {
-        List<Persons> foundPersons = dbRepository.findByPeople_AgeLessThanOrderByPeople_AgeAsc(age);
+        List<Persons> foundPersons = dbRepository.findByPeople_AgeLessThanOrderByPeople_AgeAsc(age, Sort.by(Sort.Order.asc("people.age")));
         if (!foundPersons.isEmpty()) {
             return new ResponseEntity<>(foundPersons, HttpStatus.OK);
         } else {
