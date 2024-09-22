@@ -4,7 +4,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.netology.hwORM.models.People;
 import ru.netology.hwORM.models.Persons;
 import ru.netology.hwORM.repository.DBRepository;
 import ru.netology.hwORM.requests.UpdateRequest;
