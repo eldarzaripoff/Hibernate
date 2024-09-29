@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,19 +15,20 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/persons/get").permitAll() // Доступ без авторизации
-                        .anyRequest().authenticated() // Все остальные запросы требуют авторизации
+                        .requestMatchers("/persons/get").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .formLogin(withDefaults()) // Используем стандартную форму логина
+                .formLogin(withDefaults())
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // URL для выхода
-                        .logoutSuccessUrl("/login?logout") // URL для перенаправления после выхода
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
                 );
 
         return http.build();
@@ -34,7 +36,7 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(); // Используем BCrypt для кодирования паролей
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -43,8 +45,20 @@ public class SecurityConfig {
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder
                 .inMemoryAuthentication()
-                .withUser("user")
-                .password(passwordEncoder().encode("password")) // Замените на свои учетные данные
+                .withUser("reader")
+                .password(passwordEncoder().encode("password"))
+                .roles("READ")
+                .and()
+                .withUser("writer")
+                .password(passwordEncoder().encode("password"))
+                .roles("WRITE")
+                .and()
+                .withUser("deleter")
+                .password(passwordEncoder().encode("password"))
+                .roles("DELETE")
+                .and()
+                .withUser("Eldar") // Добавленный пользователь
+                .password(passwordEncoder().encode("password"))
                 .roles("USER");
         return authenticationManagerBuilder.build();
     }
